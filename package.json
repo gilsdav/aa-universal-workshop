@@ -9,7 +9,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:angular": "ng serve",
-    "start:fake-server": "json-server --watch \"db.json\""
+    "start:fake-server": "json-server --watch \"db.json\"",
+    "compile:server": "webpack --config webpack.server.config.js --progress --colors",
+    "serve:ssr": "node dist/server",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
+    "build:client-and-server-bundles": "ng build --prod && ng run aa-universal-workshop:server:production"
   },
   "private": true,
   "dependencies": {
@@ -21,8 +25,12 @@
     "@angular/http": "^7.2.0",
     "@angular/platform-browser": "^7.2.0",
     "@angular/platform-browser-dynamic": "^7.2.0",
+    "@angular/platform-server": "^7.2.0",
     "@angular/router": "^7.2.0",
+    "@nguniversal/express-engine": "v7.0.2",
+    "@nguniversal/module-map-ngfactory-loader": "v7.0.2",
     "core-js": "^2.5.4",
+    "express": "^4.15.2",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"
   },
@@ -45,8 +53,10 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "protractor": "~5.4.2",
+    "ts-loader": "^5.2.0",
     "ts-node": "~7.0.1",
     "tslint": "~5.12.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "webpack-cli": "^3.1.0"
   }
 }

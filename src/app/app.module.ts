@@ -18,7 +18,7 @@ export const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES),
     HttpClientModule
