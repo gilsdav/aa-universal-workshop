@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Pizza } from '../../models/pizza.model';
 import { PizzasService } from '../../services/pizzas.service';
 import { ToppingsService } from '../../services/toppings.service';
+import { MetadataService } from '../../../app/services/metadata/metadata.service';
 
 @Component({
   selector: 'product-item',
@@ -35,7 +36,8 @@ export class ProductItemComponent implements OnInit {
     private pizzaService: PizzasService,
     private toppingsService: ToppingsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private metadataService: MetadataService
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,7 @@ export class ProductItemComponent implements OnInit {
       this.toppingsService.getToppings().subscribe(toppings => {
         this.toppings = toppings;
       });
+      this.updateMeta();
     });
   }
 
@@ -79,4 +82,13 @@ export class ProductItemComponent implements OnInit {
       });
     }
   }
+
+  private updateMeta() {
+    this.metadataService.updateMeta({
+      title: `Pizza ${this.pizza.name}`,
+      description: `Detail of the pizza named ${this.pizza.name}`,
+      longDescription: `Pizza that contains ${this.pizza.toppings.join(', ')}`
+    });
+  }
+
 }

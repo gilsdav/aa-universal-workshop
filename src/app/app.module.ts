@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // bootstrap
 import { AppComponent } from './containers/app/app.component';
+import { MetadataService } from './services/metadata/metadata.service';
 
 // routes
 export const ROUTES: Routes = [
@@ -25,6 +26,7 @@ export const ROUTES: Routes = [
     HttpClientModule
   ],
   declarations: [AppComponent],
+  providers: [MetadataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

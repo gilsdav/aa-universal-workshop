@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Pizza } from '../../models/pizza.model';
 import { PizzasService } from '../../services/pizzas.service';
+import { MetadataService } from '../../../app/services/metadata/metadata.service';
 
 @Component({
   selector: 'products',
@@ -31,11 +32,17 @@ import { PizzasService } from '../../services/pizzas.service';
 export class ProductsComponent implements OnInit {
   pizzas: Pizza[];
 
-  constructor(private pizzaService: PizzasService) {}
+  constructor(private pizzaService: PizzasService, private metadataService: MetadataService) {}
 
   ngOnInit() {
     this.pizzaService.getPizzas().subscribe(pizzas => {
       this.pizzas = pizzas;
+    });
+
+    this.metadataService.updateMeta({
+      title: 'Pizzas',
+      description: 'List of all pizza',
+      longDescription: ''
     });
   }
 }
