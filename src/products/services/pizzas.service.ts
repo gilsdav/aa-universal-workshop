@@ -1,20 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Pizza } from '../models/pizza.model';
 
+const PIZZAS_KEY = makeStateKey('pizzas');
+
 @Injectable()
 export class PizzasService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private transferState: TransferState) {}
 
   getPizzas(): Observable<Pizza[]> {
-    return this.http
-      .get<Pizza[]>(`${environment.baseUrl}/pizzas`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+    const found = this.transferState.hasKey(PIZZAS_KEY);
+    if (found) {
+      const res = of(this.transferState.get<Pizza[]>(PIZZAS_KEY, []));
+      this.transferState.remove(PIZZAS_KEY);
+      return res;
+    } else {
+      let resultToSerialize: Pizza[];
+      this.transferState.onSerialize(PIZZAS_KEY, () => resultToSerialize);
+      return this.http
+        .get<Pizza[]>(`${environment.baseUrl}/pizzas`)
+        .pipe(
+          tap(result => resultToSerialize = result),
+          catchError((error: any) => throwError(error.json()))
+        );
+    }
   }
 
   createPizza(payload: Pizza): Observable<Pizza> {
