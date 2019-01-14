@@ -40,5 +40,11 @@ L'API Rest est disponible à l'adresse `http://localhost:3000/`
     * Appliquer des valeurs différentes sur la page product et sur la page productItem
     * Intégrer des données de la pizza comme le nom ou les ingrédients pour les meta de la page productItem
 
+### 4. Rendre une variable d'environement dynamique
+* Rendez la variable d'environement `baseUrl` configurable au lancement de l'application
+* Consignes:
+    * Cela doit aussi bien configurer l'application qui tourne sur le serveur que celle tourant du côté client.
+
+
 
 ![Zozor](https://www.letscode.hu/img/letscodelogo190.png)
